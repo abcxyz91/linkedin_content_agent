@@ -46,7 +46,7 @@ class ResearchCrew():
     def researcher(self) -> Agent:
         return Agent(
             config=self.agents_config['researcher'], # type: ignore[index]
-            verbose=True,
+            verbose=False,
             tools=[search_tool, website_search_tool]
         )
 
@@ -54,7 +54,7 @@ class ResearchCrew():
     def fact_checker(self) -> Agent:
         return Agent(
             config=self.agents_config['fact_checker'], # type: ignore[index]
-            verbose=True,
+            verbose=False,
             tools=[search_tool]
         )
 
@@ -81,5 +81,5 @@ class ResearchCrew():
             agents=self.agents, # Automatically created by the @agent decorator
             tasks=self.tasks, # Automatically created by the @task decorator
             process=Process.sequential,
-            verbose=True,
+            verbose=False,
         )

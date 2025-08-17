@@ -3,7 +3,12 @@ from linkedin_content_agent.crews.research_crew.research_crew import ResearchCre
 from linkedin_content_agent.crews.content_crew.content_crew import ContentCrew
 from linkedin_content_agent.schemas import ResearchFlowState, ResearchReport
 from pydantic import BaseModel, ValidationError
+from dotenv import load_dotenv
 import json, os
+
+# Load environment variables
+load_dotenv()
+os.environ["CREWAI_DISABLE_TELEMETRY"] = "True" # Disable telemetry message in the terminal
 
 class LinkedinContentFlow(Flow[ResearchFlowState]):
     """Flow for researching & creating a comprehensive & engaging content on any topic, ready to post on LinkedIn"""
@@ -39,7 +44,7 @@ class LinkedinContentFlow(Flow[ResearchFlowState]):
         result = ResearchCrew().crew().kickoff(inputs={
                 "topic": self.state.topic,
                 "industry": self.state.industry,
-                "current_date": self.state.current_date,
+                "current_date": self.state.current_date.isoformat(), # Change from Python object to string format
             })
         
         try:

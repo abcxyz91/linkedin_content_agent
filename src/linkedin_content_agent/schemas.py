@@ -28,8 +28,8 @@ class ResearchFlowState(BaseModel):
     This object holds the inputs for the task and stores the output.
     """
     # Inputs for the research_task
-    topic: str = Field(..., description="The topic for the research task.")
-    industry: str = Field(..., description="The industry space to focus the research on.")
+    topic: str = Field(default="", description="The topic for the research task.")
+    industry: str = Field(default="", description="The industry space to focus the research on.")
     current_date: date = Field(default_factory=date.today, description="The current date for timely research.")
     
     # Output of the research_task

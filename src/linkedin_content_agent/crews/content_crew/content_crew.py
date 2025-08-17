@@ -20,14 +20,14 @@ class ContentCrew():
     def content_writer(self) -> Agent:
         return Agent(
             config=self.agents_config['content_writer'], # type: ignore[index]
-            verbose=True
+            verbose=False
         )
 
     @agent
     def content_editor(self) -> Agent:
         return Agent(
             config=self.agents_config['content_editor'], # type: ignore[index]
-            verbose=True
+            verbose=False
         )
 
     @task
@@ -51,5 +51,5 @@ class ContentCrew():
             agents=self.agents, # Automatically created by the @agent decorator
             tasks=self.tasks, # Automatically created by the @task decorator
             process=Process.sequential,
-            verbose=True,
+            verbose=False,
         )
