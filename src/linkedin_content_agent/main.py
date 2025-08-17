@@ -14,25 +14,15 @@ warnings.filterwarnings("ignore") # Suppress unimportant warnings
 
 class LinkedinContentFlow(Flow[ResearchFlowState]):
     """Flow for researching & creating a comprehensive & engaging content on any topic, ready to post on LinkedIn"""
+    def __init__(self, topic: str, industry: str):
+        super().__init__()
+        self._topic = topic
+        self._industry = industry
+
     @start()
     def get_user_input(self):
-        """Get input from the user about the content topic and industry space"""
-        print("\n=== Create Your Content ===\n")
-
-        # Get user input & validate
-        while True:
-            topic = input("What topic would you like to research for? ")
-            if topic:
-                self.state.topic = topic.strip()
-                break
-            print("Please enter a topic")
-
-        while True:
-            industry = input(f"What industry space of this topic {topic}? ")
-            if industry:
-                self.state.industry = industry.strip()
-                break
-            print("Please enter topic's industry")
+        self.state.topic = self.topic.strip()
+        self.state.industry = self.industry.strip()
 
         # Inject current date into Flow state
         # No need due to default schemas
@@ -81,8 +71,24 @@ class LinkedinContentFlow(Flow[ResearchFlowState]):
         return self.state
     
 def kickoff():
+    """Get input from the user about the content topic and industry space"""
+    print("\n=== Create Your Content ===\n")
+
+    # Get user input & validate
+    while True:
+        topic = input("What topic would you like to research for? ")
+        if topic:
+            break
+        print("Please enter a topic")
+
+    while True:
+        industry = input(f"What industry space of this topic {topic}? ")
+        if industry:
+            break
+        print("Please enter topic's industry")
+
     """Run the LinkedIn Content flow"""
-    LinkedinContentFlow().kickoff()
+    LinkedinContentFlow(topic=topic, industry=industry).kickoff()
     print("\n=== Flow Complete ===")
     print("Your comprehensive content is ready in the output directory.")
     print("Open output/content_result.txt to view it.")
