@@ -4,11 +4,13 @@ from linkedin_content_agent.crews.content_crew.content_crew import ContentCrew
 from linkedin_content_agent.schemas import ResearchFlowState, ResearchReport
 from pydantic import BaseModel, ValidationError
 from dotenv import load_dotenv
-import json, os
+import json, os, warnings
+
 
 # Load environment variables
 load_dotenv()
 os.environ["CREWAI_DISABLE_TELEMETRY"] = "True" # Disable telemetry message in the terminal
+warnings.filterwarnings("ignore") # Suppress unimportant warnings
 
 class LinkedinContentFlow(Flow[ResearchFlowState]):
     """Flow for researching & creating a comprehensive & engaging content on any topic, ready to post on LinkedIn"""
@@ -41,6 +43,9 @@ class LinkedinContentFlow(Flow[ResearchFlowState]):
     @listen(get_user_input)
     def research(self, state):
         """Call the specialized crew to research"""
+        # Ensure output directory exists before saving
+        os.makedirs("output", exist_ok=True)
+
         result = ResearchCrew().crew().kickoff(inputs={
                 "topic": self.state.topic,
                 "industry": self.state.industry,
@@ -49,22 +54,27 @@ class LinkedinContentFlow(Flow[ResearchFlowState]):
         
         try:
             # LLM response could be a dict or a string, hence the parsing will handle both case
-            data = result if isinstance(result, dict) else json.loads(result)
+            data = result if isinstance(result, dict) else json.loads(result.raw)
 
             # Parse the data return from Research crew into Flow state
             self.state.research_report = ResearchReport(**data)
         except (json.JSONDecodeError, ValidationError, TypeError) as e:
-            print(f"Error happenning: {e}")
+            print(f"Error happening: {e}")
 
         print(f"\nFinish reseach on {self.state.topic} for {self.state.industry}...\n")
         return self.state
     
     @listen(research)
     def content(self, state):
-        """Call the specialized crew to write content"""
+        """
+        Call the specialized crew to write content.
+        The content will be based on research result of other crew.
+        """
         result = ContentCrew().crew().kickoff(inputs={
                 "topic": self.state.topic,
                 "industry": self.state.industry,
+                "current_date": self.state.current_date.isoformat(), # Change from Python object to string format
+                "research_report": self.state.research_report.model_dump() # Change from ResearchReport object to a dictionary
             })
         
         print(f"\nFinish content creating on {self.state.topic} for {self.state.industry}...\n")

@@ -29,7 +29,7 @@ class ContentCrew():
     def content_writer(self) -> Agent:
         return Agent(
             config=self.agents_config['content_writer'], # type: ignore[index]
-            verbose=False,
+            verbose=True,
             llm=gemini_llm
         )
 
@@ -37,7 +37,7 @@ class ContentCrew():
     def content_editor(self) -> Agent:
         return Agent(
             config=self.agents_config['content_editor'], # type: ignore[index]
-            verbose=False,
+            verbose=True,
             llm=gemini_llm
         )
 
@@ -52,7 +52,7 @@ class ContentCrew():
         return Task(
             config=self.tasks_config['editing_task'], # type: ignore[index]
             context=[self.drafting_task()],
-            output_file="content_result.txt"
+            output_file="output/content_result.txt"
         )
 
     @crew

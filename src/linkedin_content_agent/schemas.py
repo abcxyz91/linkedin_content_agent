@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from typing import List, Optional
 from datetime import date
 
@@ -6,6 +6,8 @@ class ResearchData(BaseModel):
     """
     Represents a single piece of research data, like a statistic or a quote.
     """
+    model_config = ConfigDict(extra='allow')  # Updated config style
+
     statistic: Optional[str] = Field(None, description="A key statistic or data point.")
     source: Optional[str] = Field(None, description="The source of the statistic.")
     quote: Optional[str] = Field(None, description="An insightful quote from a thought leader.")

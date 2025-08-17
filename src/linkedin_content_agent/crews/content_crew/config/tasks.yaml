@@ -1,7 +1,12 @@
 drafting_task:
   description: >
     Using the validated research report on "{topic}" relevant to the "{industry}" space, write an engaging and professional
-    LinkedIn post. The post should:
+    LinkedIn post.
+
+    The content of validated research report that was done on {current_date} is below:
+    {research_report} 
+    
+    The post should:
     1.  Start with a strong hook to capture attention.
     2.  Clearly present the main idea or insight from the research.
     3.  Incorporate 1-2 key statistics or data points to support the message.

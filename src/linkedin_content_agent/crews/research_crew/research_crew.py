@@ -17,7 +17,8 @@ os.environ["CREWAI_DISABLE_TELEMETRY"] = "True" # Disable telemetry message in t
 gemini_llm = LLM(
     model=GEMINI_MODEL,
     api_key=GEMINI_API_KEY,
-    max_tokens=2048
+    max_tokens=2048,
+    response_format=ResearchReport
 )
 
 # Initialize the tools
@@ -53,7 +54,7 @@ class ResearchCrew():
     def researcher(self) -> Agent:
         return Agent(
             config=self.agents_config['researcher'], # type: ignore[index]
-            verbose=False,
+            verbose=True,
             tools=[search_tool, website_search_tool],
             llm=gemini_llm
         )
@@ -62,7 +63,7 @@ class ResearchCrew():
     def fact_checker(self) -> Agent:
         return Agent(
             config=self.agents_config['fact_checker'], # type: ignore[index]
-            verbose=False,
+            verbose=True,
             tools=[search_tool],
             llm=gemini_llm
         )
@@ -71,7 +72,6 @@ class ResearchCrew():
     def research_task(self) -> Task:
         return Task(
             config=self.tasks_config['research_task'], # type: ignore[index]
-            output_pydantic=ResearchReport
         )
 
     @task
@@ -79,8 +79,7 @@ class ResearchCrew():
         return Task(
             config=self.tasks_config['fact_checking_task'], # type: ignore[index]
             context=[self.research_task()],
-            output_pydantic=ResearchReport,
-            output_file="research_result.json"
+            output_file="output/research_result.json"
         )
 
     @crew
