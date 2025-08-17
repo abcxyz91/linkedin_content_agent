@@ -1,4 +1,4 @@
-from crewai import Agent, Crew, Process, Task
+from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from crewai_tools import SerperDevTool, WebsiteSearchTool
@@ -12,6 +12,13 @@ load_dotenv()
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 GEMINI_MODEL = os.environ.get("MODEL")
 os.environ["CREWAI_DISABLE_TELEMETRY"] = "True" # Disable telemetry message in the terminal
+
+# Initialize LLM model
+gemini_llm = LLM(
+    model=GEMINI_MODEL,
+    api_key=GEMINI_API_KEY,
+    max_tokens=2048
+)
 
 # Initialize the tools
 search_tool = SerperDevTool()
@@ -47,7 +54,8 @@ class ResearchCrew():
         return Agent(
             config=self.agents_config['researcher'], # type: ignore[index]
             verbose=False,
-            tools=[search_tool, website_search_tool]
+            tools=[search_tool, website_search_tool],
+            llm=gemini_llm
         )
 
     @agent
@@ -55,7 +63,8 @@ class ResearchCrew():
         return Agent(
             config=self.agents_config['fact_checker'], # type: ignore[index]
             verbose=False,
-            tools=[search_tool]
+            tools=[search_tool],
+            llm=gemini_llm
         )
 
     @task

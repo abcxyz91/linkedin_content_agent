@@ -1,4 +1,4 @@
-from crewai import Agent, Crew, Process, Task
+from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
@@ -7,7 +7,16 @@ import os
 
 # Load environment variable
 load_dotenv()
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+GEMINI_MODEL = os.environ.get("MODEL")
 os.environ["CREWAI_DISABLE_TELEMETRY"] = "True" # Disable telemetry message in the terminal
+
+# Initialize LLM model
+gemini_llm = LLM(
+    model=GEMINI_MODEL,
+    api_key=GEMINI_API_KEY,
+    max_tokens=2048
+)
 
 @CrewBase
 class ContentCrew():
@@ -20,14 +29,16 @@ class ContentCrew():
     def content_writer(self) -> Agent:
         return Agent(
             config=self.agents_config['content_writer'], # type: ignore[index]
-            verbose=False
+            verbose=False,
+            llm=gemini_llm
         )
 
     @agent
     def content_editor(self) -> Agent:
         return Agent(
             config=self.agents_config['content_editor'], # type: ignore[index]
-            verbose=False
+            verbose=False,
+            llm=gemini_llm
         )
 
     @task

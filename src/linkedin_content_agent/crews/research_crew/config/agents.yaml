@@ -9,7 +9,6 @@ researcher:
     You know how to navigate industry reports, academic journals, and trending news
     to unearth insights that will resonate with a LinkedIn audience. Your expertise lies
     in distilling complex information into actionable and compelling points for content creators.
-  llm: google/gemini-2.5-flash-lite
 
 fact_checker:
   role: "Professional Content Fact Checker"
@@ -21,4 +20,3 @@ fact_checker:
     communications. You have a sharp eye for detail and a relentless commitment to
     accuracy. Your job is to be the gatekeeper of truth, ensuring that all content
     is trustworthy and upholds the highest standards of professional credibility.
-  llm: google/gemini-2.5-flash-lite

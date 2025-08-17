@@ -10,7 +10,6 @@ content_writer:
     storytelling with data, how to structure posts for maximum readability, and how to
     employ calls-to-action that drive meaningful engagement. You transform raw data
     into polished, thought-provoking narratives.
-  llm: google/gemini-2.5-flash-lite
 
 content_editor:
   role: "Professional Content Editor"
@@ -23,4 +22,3 @@ content_editor:
     You are not just a proofreader; you are a content enhancer, skilled at sharpening
     hooks, clarifying messages, and strategically adding elements like hashtags and formatting
     to maximize the post's reach and impact.
-  llm: google/gemini-2.5-flash-lite
