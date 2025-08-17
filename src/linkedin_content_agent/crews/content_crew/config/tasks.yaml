@@ -1,0 +1,29 @@
+drafting_task:
+  description: >
+    Using the validated research report on "{topic}" relevant to the "{industry}" space, write an engaging and professional
+    LinkedIn post. The post should:
+    1.  Start with a strong hook to capture attention.
+    2.  Clearly present the main idea or insight from the research.
+    3.  Incorporate 1-2 key statistics or data points to support the message.
+    4.  Be written in a professional yet conversational tone.
+    5.  End with a clear call-to-action or a question to encourage engagement.
+    6.  The post should be between 200-300 words.
+  expected_output: >
+    A well-written draft of a LinkedIn post in plain text format, ready for review.
+    The draft should include the hook, body, and call-to-action.
+  agent: content_writer
+
+editing_task:
+  description: >
+    Review and polish the draft of a LinkedIn post on "{topic}" relevant to the "{industry}" space.
+    Your goal is to optimize it for maximum impact and engagement on LinkedIn.
+    Your review should:
+    1.  Proofread for any grammar or spelling errors.
+    2.  Improve the hook and overall flow for better readability.
+    3.  Ensure the tone is appropriate for a professional LinkedIn audience.
+    4.  Strategically format the post using line breaks and emojis to enhance readability.
+    5.  Add 3-5 relevant and trending hashtags.
+  expected_output: >
+    A final, polished, and ready-to-publish LinkedIn post. The output should include
+    the final text, strategic formatting (line breaks), and relevant hashtags.
+  agent: content_editor

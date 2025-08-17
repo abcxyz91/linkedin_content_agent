@@ -1,0 +1,34 @@
+research_task:
+  description: >
+    Conduct comprehensive research on the topic: "{topic}" relevant to the "{industry}" space.
+    The current date now is {current_date}.
+    Your goal is to gather key information, including:
+    1.  Core concepts and definitions.
+    2.  Recent statistics and data points from credible sources.
+    3.  Current industry trends and discussions related to the topic.
+    4.  Quotes or key opinions from thought leaders, CEOs of big companies.
+    5.  Potential angles or hooks that would be engaging for a LinkedIn audience.
+
+    You can use additional tools like search_tool & website_search_tool.
+    Your search result should be only within 1 month of {current_date} to ensure your research is up to date.
+    Compile your findings into a structured research report.
+  expected_output: >
+    A detailed and well-organized research report in Markdown format. The report
+    must include sections for key concepts, statistics (with sources), industry trends,
+    and potential content angles.
+  agent: researcher
+
+fact_checking_task:
+  description: >
+    Review the research report on "{topic}" relevant to the "{industry}" space for accuracy and credibility.
+    The current date now is {current_date}.
+    Your tasks are to:
+    1.  Verify all statistics and data points by cross-referencing them with original sources.
+    2.  Assess the credibility of all sources cited.
+    3.  Ensure that the information presented is current and not outdated.
+    4.  Correct any factual inaccuracies or misleading statements.
+  expected_output: >
+    A validated version of the research report. The output should either confirm the
+    accuracy of the original report or provide a revised version with corrections,
+    annotations, and verified sources.
+  agent: fact_checker
