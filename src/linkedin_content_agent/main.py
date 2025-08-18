@@ -14,15 +14,17 @@ warnings.filterwarnings("ignore") # Suppress unimportant warnings
 
 class LinkedinContentFlow(Flow[ResearchFlowState]):
     """Flow for researching & creating a comprehensive & engaging content on any topic, ready to post on LinkedIn"""
+
+    # Construct the class to accept parameters such as topic & industry
     def __init__(self, topic: str, industry: str):
-        super().__init__()
-        self._topic = topic
-        self._industry = industry
+        super().__init__() # # call the parent class initializer to set up inherited attributes
+        self._topic = topic # set instance attributes
+        self._industry = industry # set instance attributes
 
     @start()
     def get_user_input(self):
-        self.state.topic = self.topic.strip()
-        self.state.industry = self.industry.strip()
+        self.state.topic = self._topic.strip()
+        self.state.industry = self._industry.strip()
 
         # Inject current date into Flow state
         # No need due to default schemas
@@ -95,7 +97,7 @@ def kickoff():
 
 def plot():
     """Generate a visualization of the flow"""
-    flow = LinkedinContentFlow()
+    flow = LinkedinContentFlow(topic="example", industry="example")
     flow.plot("linkedin_content_agent")
     print("Flow visualization saved to linkedin_content_agent.html")
 
