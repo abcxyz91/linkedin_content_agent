@@ -2,15 +2,16 @@ research_task:
   description: >
     Conduct comprehensive research on the topic: "{topic}" relevant to the "{industry}" space.
     The current date now is {current_date}.
-    Your goal is to gather key information, including:
+    Your primary goal is to use your tools to find the latest and most relevant information.
+    You MUST use the search_tool and website_search_tool to gather the following:
     1.  Core concepts and definitions.
     2.  Recent statistics and data points from credible sources.
     3.  Current industry trends and discussions related to the topic.
     4.  Quotes or key opinions from thought leaders, CEOs of big companies.
     5.  Potential angles or hooks that would be engaging for a LinkedIn audience.
 
-    You can use additional tools like search_tool & website_search_tool.
-    Your search result should be only within 1 month of {current_date} to ensure your research is up to date.
+    It is critical that your search results are within 1 month of {current_date} to ensure the research is up-to-date. 
+    Do not rely on your internal knowledge.
     Compile your findings into a structured research report.
   expected_output: >
     A detailed and well-organized research report in Markdown format. The report
