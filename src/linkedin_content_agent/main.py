@@ -4,7 +4,7 @@ from linkedin_content_agent.crews.content_crew.content_crew import ContentCrew
 from linkedin_content_agent.schemas import ResearchFlowState, ResearchReport
 from pydantic import BaseModel, ValidationError
 from dotenv import load_dotenv
-import json, os, warnings
+import json, os, warnings, asyncio
 
 
 # Load environment variables
@@ -33,12 +33,12 @@ class LinkedinContentFlow(Flow[ResearchFlowState]):
         return self.state
     
     @listen(get_user_input)
-    def research(self, state):
+    async def research(self, state):
         """Call the specialized crew to research"""
         # Ensure output directory exists before saving
         os.makedirs("output", exist_ok=True)
 
-        result = ResearchCrew().crew().kickoff(inputs={
+        result = await ResearchCrew().crew().kickoff_async(inputs={
                 "topic": self.state.topic,
                 "industry": self.state.industry,
                 "current_date": self.state.current_date.isoformat(), # Change from Python object to string format
@@ -57,12 +57,12 @@ class LinkedinContentFlow(Flow[ResearchFlowState]):
         return self.state
     
     @listen(research)
-    def content(self, state):
+    async def content(self, state):
         """
         Call the specialized crew to write content.
         The content will be based on research result of other crew.
         """
-        result = ContentCrew().crew().kickoff(inputs={
+        result = await ContentCrew().crew().kickoff_async(inputs={
                 "topic": self.state.topic,
                 "industry": self.state.industry,
                 "current_date": self.state.current_date.isoformat(), # Change from Python object to string format
@@ -72,7 +72,7 @@ class LinkedinContentFlow(Flow[ResearchFlowState]):
         print(f"\nFinish content creating on {self.state.topic} for {self.state.industry}...\n")
         return self.state
     
-def kickoff():
+async def kickoff():
     """Get input from the user about the content topic and industry space"""
     print("\n=== Create Your Content ===\n")
 
@@ -90,10 +90,15 @@ def kickoff():
         print("Please enter topic's industry")
 
     """Run the LinkedIn Content flow"""
-    LinkedinContentFlow(topic=topic, industry=industry).kickoff()
-    print("\n=== Flow Complete ===")
-    print("Your comprehensive content is ready in the output directory.")
-    print("Open output/content_result.txt to view it.")
+    try:
+        flow = LinkedinContentFlow(topic=topic, industry=industry)
+        await flow.kickoff_async()
+        
+        print("\n=== Flow Complete ===")
+        print("Your comprehensive content is ready in the output directory.")
+        print("Open output/content_result.txt to view it.")
+    except Exception as e:
+        print(f"\nAn error occurred: {str(e)}")
 
 def plot():
     """Generate a visualization of the flow"""
@@ -102,5 +107,4 @@ def plot():
     print("Flow visualization saved to linkedin_content_agent.html")
 
 if __name__ == "__main__":
-    kickoff()
-    
+    asyncio.run(kickoff())

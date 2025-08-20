@@ -44,6 +44,7 @@ edit a LinkedIn post.
     ├── output
     ├── .env
     ├── .gitignore
+    ├── linkedin_content_agent.html # Flow visualization
     ├── pyproject.toml
     ├── README.md
     └── uv.lock
@@ -55,8 +56,8 @@ edit a LinkedIn post.
 
 -   Python 3.10+
 -   crewAI
--   google-generativeai
--   An API key for a supported LLM provider (e.g., Google's Gemini)
+-   google-generativeai or openai or anthropic
+-   An API key for a supported LLM provider (e.g., Google's Gemini, OpenAI's ChatGPT, Anthropic's Claude...)
 
 ### Installation
 
@@ -97,7 +98,8 @@ Create a `.env` file in the root of the project and add your API key:
 To run the LinkedIn Content Flow, execute the script:
 
 ``` bash
-crewai flow kickoff
+cd linkedin_content_agent
+python .\src\linkedin_content_agent\main.py
 ```
 
 The script will prompt you to enter a topic and an industry. Once
