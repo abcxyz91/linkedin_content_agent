@@ -3,13 +3,14 @@ from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
 from dotenv import load_dotenv
-import os
+import os, warnings
 
 # Load environment variable
 load_dotenv()
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 GEMINI_MODEL = os.environ.get("MODEL")
 os.environ["CREWAI_DISABLE_TELEMETRY"] = "True" # Disable telemetry message in the terminal
+warnings.filterwarnings("ignore") # Suppress unimportant warnings
 
 # Initialize LLM model
 gemini_llm = LLM(
